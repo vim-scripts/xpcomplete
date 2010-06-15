@@ -1,0 +1,25 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3126
+
+This file provides the ability to handle a better completion with the XP-Framework. This file is based on the original version from phpcomplete.vim delivered by a standard vim installation.
+
+XP-Framework: http://xp-framework.net/
+
+Requirements:
+
+ctags:
+Use absolute paths and --PHP-kinds=+cfidv for your ctag files
+
+Example:
+ctags -f $HOME/devel/xp.ctags/tags \\
+--langmap=\"php:+.inc\" \\
+-h \".php.inc\" -R --totals=yes \\
+--PHP-kinds=+cfidv \\
+--fields=+iaS \\
+$HOME/devel/xp.public/trunk/skeleton \\
+$HOME/devel/xp.public/trunk/ports/classes \\
+$HOME/devel/xp.projects/**/src
+
+TODO:
+Screenshots
+Better description
+
