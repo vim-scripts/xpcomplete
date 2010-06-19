@@ -2,7 +2,7 @@
 " Language: PHP, XP Framework support
 " Original Maintainer:  Mikolaj Machowski ( mikmach AT wp DOT pl )
 " Maintainer: Sebastian Kusnier ( sebastian AT kusnier DOT net )
-" Version:  $Id: xpcomplete.vim 653 2010-06-15 08:43:42Z seek $
+" Version:  $Id: xpcomplete.vim 659 2010-06-19 18:07:19Z seek $
 "
 "   TODO:
 "   - Class aware completion:
@@ -21,6 +21,8 @@
 "   - Use 'xp -r' to get more information in the popup menu
 "   - Add support for uses(...) complete
 "   - Use full namespace in index in xpcomplete#GetClassMember
+"   BUG:
+"   -  ...
 "
 
 function! xpcomplete#CompletePHP(findstart, base)
@@ -650,6 +652,7 @@ function! xpcomplete#GetClassMember(name) " {{{
             let fullname = fullname.'('
             let key = key.'('
           endif
+          " too slow,  let info = xpcomplete#GetXPReflectClass(namespace, classname)
           let final_menu += [{'word':fullname, 'abbr':key, 'kind':type, 'menu':namespace, 'info':info}]
         endif
 			endif
@@ -685,6 +688,10 @@ function! xpcomplete#GetCtagsType(ctagsline) " {{{
   return type
 endfunction
 
+function! xpcomplete#GetXPReflectClass(namespace, classname) " {{{
+  return system('xp -r '.a:namespace.'.'.a:classname)
+endfunction
+
 function! xpcomplete#GetClassName(scontext) " {{{
 	" Get class name
 	" Class name can be detected in few ways:
@@ -692,7 +699,8 @@ function! xpcomplete#GetClassName(scontext) " {{{
 	" line above
 	" or line in tags file
 
-	let object = matchstr(a:scontext, '\zs[a-zA-Z_0-9\x7f-\xff]\+\ze->')
+	let object = matchstr(a:scontext, '.*(\zs.\+\ze') " cut nested calls
+	let object = matchstr(object, '\zs[a-zA-Z_0-9\x7f-\xff]\+\ze->')
 	let i = 1
 	while i < line('.')
 		let line = getline(line('.')-i)
