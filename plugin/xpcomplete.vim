@@ -2,7 +2,7 @@
 " Language: PHP, XP Framework support
 " Original Maintainer:  Mikolaj Machowski ( mikmach AT wp DOT pl )
 " Maintainer: Sebastian Kusnier ( sebastian AT kusnier DOT net )
-" Version:  $Id: xpcomplete.vim 659 2010-06-19 18:07:19Z seek $
+" Version:  $Id: xpcomplete.vim 660 2010-06-20 16:13:02Z seek $
 "
 "   TODO:
 "   - Class aware completion:
@@ -699,7 +699,7 @@ function! xpcomplete#GetClassName(scontext) " {{{
 	" line above
 	" or line in tags file
 
-	let object = matchstr(a:scontext, '.*(\zs.\+\ze') " cut nested calls
+  let object = matchstr(a:scontext, '\(.*(\zs.\+\ze\|.*\)') " cut nested calls
 	let object = matchstr(object, '\zs[a-zA-Z_0-9\x7f-\xff]\+\ze->')
 	let i = 1
 	while i < line('.')
